@@ -15,19 +15,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository (MANDATORY)
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Set Python version (IMPORTANT)
+      # 2️⃣ Set Python version
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # 3️⃣ SonarCloud Analysis
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # 4️⃣ SonarCloud Analysis
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
         env:
@@ -35,6 +40,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=VarshithRegonda_<PROJECT_NAME>
+            -Dsonar.projectKey=VarshithRegonda_webapp
             -Dsonar.organization=varshithregonda
             -Dsonar.sources=.
